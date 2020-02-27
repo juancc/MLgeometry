@@ -8,7 +8,7 @@ setup(
   author = 'Juan Carlos Arbeláez',
   author_email = 'juanarbelaez@vaico.com.co',
   url = 'https://jarbest@bitbucket.org/jarbest/mlgeometry.git',
-  download_url = 'https://bitbucket.org/jarbest/mlgeometry/get/v01.tar.gz',
+  download_url = 'https://bitbucket.org/jarbest/mlgeometry/get/master.tar.gz',
   keywords = ['vaico', 'geometry', 'ml'],
   install_requires=[],
   classifiers=[
