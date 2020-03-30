@@ -7,6 +7,7 @@ Implemented:
 - Point
 - Circle
 - Polygon
+- Polyline
 
 ## Importing
 For use geometries:
@@ -31,7 +32,7 @@ new_obj = creator.create_geometry(o_dict)
 Geometry special methods: Geometry._asdict() and Geometry._fromdict(dict)
 
 ## License
-All rights of this library belongs to Vaico VisiÃ³n Artificial and no one may distribute, reproduce, or create derivative works.
+All rights of this library belongs to Vaico Visión Artificial and no one may distribute, reproduce, or create derivative works.
 
 
 Vaico
