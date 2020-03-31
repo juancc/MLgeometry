@@ -2,7 +2,7 @@
 JCA
 Vaico
 """
-
+import reprlib
 from abc import ABC, abstractmethod
 
 
@@ -44,4 +44,5 @@ class Geometry(ABC):
 
     def __repr__(self):
         class_name = type(self).__name__
-        return '{}({})'.format(class_name, [i for i in self])
+        return '{}({})'.format(class_name, reprlib.repr([i for i in self]))
+

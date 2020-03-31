@@ -38,7 +38,7 @@ class Polygon(Geometry):
 
     def _asdict(self):
         return {
-            'points' : self.points,
+            'points': self.points,
         }
 
     def __len__(self):
