@@ -19,7 +19,6 @@ Vaico
 import reprlib
 
 import numpy as np
-from _collections import namedtuple
 
 from MLgeometry.geometries.Geometry import Geometry
 
