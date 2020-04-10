@@ -56,11 +56,9 @@ class Mask(Geometry):
 
     def centroid(self):
         centers = []
-        if isinstance(self.roi, list):
-            for r in range(len(self.roi)):
-                centers.append(self.calc_c(self.roi[r]))
-        else:
-            centers.append(self.calc_c(self.roi))
+        for r in range(len(self.roi)):
+            centers.append(self.calc_c(self.roi[r]))
+
         return centers
 
     def _asdict(self):
