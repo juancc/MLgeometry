@@ -26,3 +26,12 @@ class Object():
         args_rep = str({i: getattr(self,i) for i in self.__slots__ })[1:-1]
         rep = '{}({})'.format(class_name, args_rep)
         return rep
+
+    def _asdict(self):
+        return{
+            'label': self.label,
+            'score': self.score,
+            'subobject': self.subobject._asdict() if self.subobject else None,
+            str(type(self.geometry).__name__): self.geometry._asdict() if self.geometry else None
+
+        }
