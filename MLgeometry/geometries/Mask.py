@@ -42,10 +42,13 @@ class Mask(Geometry):
             self.idx = np.where(flat == True)[0].tolist()
             self.shape = mask.shape
 
-        if not isinstance(roi, list):
-            self.roi = roi.tolist()
-        else:
-            self.roi = roi
+        self.roi = []
+        for r in roi:
+            if not isinstance(r, list):
+                self.roi.append(r.tolist())
+            else:
+                self.roi.append(r)
+
 
     def __iter__(self):
         return iter(self.idx)

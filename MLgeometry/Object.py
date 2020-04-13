@@ -30,7 +30,7 @@ class Object():
     def _asdict(self):
         return{
             'label': self.label,
-            'score': self.score,
+            'score': float(self.score) if self.score else None,
             'subobject': self.subobject._asdict() if self.subobject else None,
             str(type(self.geometry).__name__): self.geometry._asdict() if self.geometry else None
 
