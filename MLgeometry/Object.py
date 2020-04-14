@@ -8,7 +8,7 @@ Vaico
 class Object():
     __slots__ = ('geometry', 'label', 'score', 'subobject')
 
-    def __init__(self,geometry=None, label=None, score=None, subobject=None ):
+    def __init__(self, geometry=None, label=None, score=None, subobject=None ):
         self.geometry = geometry
         self.label = label
         self.score = score
@@ -28,10 +28,12 @@ class Object():
         return rep
 
     def _asdict(self):
-        return{
+        d = {
             'label': self.label,
             'score': float(self.score) if self.score else None,
-            'subobject': self.subobject._asdict() if self.subobject else None,
-            str(type(self.geometry).__name__): self.geometry._asdict() if self.geometry else None
-
+            str(type(self.geometry).__name__).lower(): self.geometry._asdict() if self.geometry else None
         }
+        if self.subobject:
+            d['subobject'] = self.subobject._asdict()
+
+        return d

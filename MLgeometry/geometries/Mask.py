@@ -33,22 +33,24 @@ class Mask(Geometry):
         """
         if idx:
             # When is instantiated from a dict
-            self.idx = idx
-            self.shape = shape
+            if not isinstance(idx[0], int):
+                self.idx = [int(i) for i in idx]
+            else:
+                self.idx = idx
+            self.shape = [int(i) for i in shape]
         else:
             # Get only the index of flatten mask (converted into array)
             mask = mask.astype(bool)
             flat = mask.flatten()
-            self.idx = np.where(flat == True)[0].tolist()
+            self.idx = np.where(flat == True)[0].astype(int).tolist()
             self.shape = mask.shape
 
         self.roi = []
         for r in roi:
             if not isinstance(r, list):
-                self.roi.append(r.tolist())
+                self.roi.append(r.astype(int).tolist())
             else:
                 self.roi.append(r)
-
 
     def __iter__(self):
         return iter(self.idx)
