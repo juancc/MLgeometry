@@ -5,3 +5,4 @@ from MLgeometry.geometries.Point import Point
 from MLgeometry.geometries.Polygon import Polygon
 from MLgeometry.geometries.Polyline import Polyline
 from MLgeometry.geometries.Mask import Mask
+from MLgeometry.geometries.Skeleton import Skeleton

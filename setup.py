@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'MLgeometry',
   packages = ['MLgeometry', 'MLgeometry.geometries'],
-  version = '0.1.4',
+  version = '0.1.5',
   license= '',
   description = 'Package for representing data as Objects with common geometries. Used as an interface for prediction elements in Computer Vision problems',
   author = 'Juan Carlos Arbeláez',
