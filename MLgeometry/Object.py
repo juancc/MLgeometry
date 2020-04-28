@@ -31,8 +31,10 @@ class Object():
         d = {
             'label': self.label,
             'score': float(self.score) if self.score else None,
-            str(type(self.geometry).__name__).lower(): self.geometry._asdict() if self.geometry else None
         }
+        if self.geometry:
+            d[str(type(self.geometry).__name__).lower()] = self.geometry._asdict()
+
         if self.subobject:
             d['subobject'] = self.subobject._asdict()
 
