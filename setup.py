@@ -5,7 +5,7 @@ setup(
   version = '0.1.7',
   license= '',
   description = 'Package for representing data as Objects with common geometries. Used as an interface for prediction elements in Computer Vision problems',
-  author = 'Juan Carlos Arbeláez',
+  author = 'Juan Carlos Arbelaez',
   author_email = 'juanarbelaez@vaico.com.co',
   url = 'https://jarbest@bitbucket.org/jarbest/mlgeometry.git',
   download_url = 'https://bitbucket.org/jarbest/mlgeometry/get/master.tar.gz',
