@@ -34,7 +34,27 @@ class BoundBox(Geometry):
     def __iter__(self):
         return (i for i in (self.xmin,self.ymin,self.xmax,self.ymax))
 
+    def iou(self, other):
+        """Return the Interception Over Union
+        Details in https://en.wikipedia.org/wiki/Jaccard_index"""
+        xA = max(self.xmin, other.xmin)
+        yA = max(self.ymin, other.ymin)
+        xB = min(self.xmax, other.xmax)
+        yB = min(self.ymax, other.ymax)
+
+        # Area of intersection rectangle
+        interArea = max(0, xB - xA + 1) * max(0, yB - yA + 1)
+        # Union: sum of the two areas
+        boxAArea = (self.xmax - self.xmin + 1) * (self.ymax - self.ymin + 1)
+        boxBArea =  (other.xmax - other.xmin + 1) * (other.ymax - other.ymin + 1)
+
+        iou = interArea / float(boxAArea + boxBArea - interArea)
+
+        return iou
+
+
 
 if __name__ == '__main__':
     a = BoundBox(1,2,3,4)
-    print(a.xmin)
+    b = BoundBox(1,2,3,4)
+    print(a.iou(b))
