@@ -26,10 +26,12 @@ from MLgeometry.geometries.Geometry import Geometry
 class Mask(Geometry):
     __slots__ = ('idx', 'roi', 'shape')
 
-    def __init__(self, mask, roi, idx=None, shape=None):
+    def __init__(self, mask, roi, idx=None, shape=None, keep_mask=False, threshold=0.5):
         """
-        :mask: (ndarray): Boolean matrix of 2 dimensions
+        :mask: (ndarray): Boolean matrix of 2 dimensions. If float type. thresholding process is performed
         :roi: (tuple or list of tuples) bound box coordinates (y1, x1, y2, x2)
+        :keep_mask: (Bool) Keep original mask in object. Not stored as dict
+        :threshold: (float) Min value for generating the index mask
         """
         if idx:
             # When is instantiated from a dict
@@ -40,10 +42,14 @@ class Mask(Geometry):
             self.shape = [int(i) for i in shape]
         else:
             # Get only the index of flatten mask (converted into array)
-            mask = mask.astype(bool)
-            flat = mask.flatten()
+            if mask.dtype != bool:
+                _mask = np.zeros(mask.shape, np.uint8)
+                mask[mask > threshold] = 1
+            _mask = mask.astype(bool)
+            flat = _mask.flatten()
             self.idx = np.where(flat == True)[0].astype(int).tolist()
-            self.shape = mask.shape
+            self.shape = _mask.shape
+            if keep_mask: self.mask = mask
 
         self.roi = []
         for r in roi:
