@@ -1,0 +1,6 @@
+venv
+.idea
+*.pcy
+*__pycache__
+MANIFEST
+setup.cfg

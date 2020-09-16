@@ -24,7 +24,7 @@ from MLgeometry.geometries.Geometry import Geometry
 
 
 class Mask(Geometry):
-    __slots__ = ('idx', 'roi', 'shape')
+    __slots__ = ('idx', 'roi', 'shape', 'keep_mask')
 
     def __init__(self, mask, roi, idx=None, shape=None, keep_mask=False, threshold=0.5):
         """
@@ -33,8 +33,9 @@ class Mask(Geometry):
         :keep_mask: (Bool) Keep original mask in object. Not stored as dict
         :threshold: (float) Min value for generating the index mask
         """
-        if idx:
-            # When is instantiated from a dict
+        self.keep_mask = keep_mask
+        if idx is not None and mask is None:
+            # When is instantiated from a dict without mask
             if not isinstance(idx[0], int):
                 self.idx = [int(i) for i in idx]
             else:
@@ -42,9 +43,11 @@ class Mask(Geometry):
             self.shape = [int(i) for i in shape]
         else:
             # Get only the index of flatten mask (converted into array)
+            if isinstance(mask, list):
+                mask = np.array(mask)
             if mask.dtype != bool:
                 _mask = np.zeros(mask.shape, np.uint8)
-                mask[mask > threshold] = 1
+                _mask[mask > threshold] = 1
             _mask = mask.astype(bool)
             flat = _mask.flatten()
             self.idx = np.where(flat == True)[0].astype(int).tolist()
@@ -73,21 +76,36 @@ class Mask(Geometry):
         return centers
 
     def _asdict(self):
-        return {
-            'idx': self.idx,
+        d = {
             'shape': self.shape,
             'roi': self.roi
         }
+        if self.keep_mask: 
+            d['mask'] = self.mask.tolist()
+        else: 
+            d['idx'] = self.idx
+        
+        return d
 
     def __len__(self):
         return len(self.idx)
 
     @classmethod
     def _fromdict(cls, info_dict):
-        return cls(None,
+        mask = None
+        keep_mask = False
+        if 'mask' in info_dict: 
+            mask = info_dict['mask']
+            idx = None
+            keep_mask = True
+        else:
+            idx = info_dict['idx']
+            
+        return cls(mask,
                    info_dict['roi'],
-                   idx=info_dict['idx'],
-                   shape=info_dict['shape'])
+                   idx=idx,
+                   shape=info_dict['shape'],
+                   keep_mask=keep_mask)
 
     def __eq__(self, other):
         return self.idx == self.idx and self.shape == self.shape
@@ -98,3 +116,14 @@ class Mask(Geometry):
             'idx': self.idx
         }
         return '{}({})'.format(class_name, reprlib.repr(args))
+
+
+if __name__ == "__main__":
+    import json
+    mask = np.random.random((10,10))
+    geo = Mask(mask, [], keep_mask=True)
+    geo_dict = geo._asdict()
+    st = json.dumps(geo_dict)
+
+    new_geo = Mask._fromdict(geo_dict)
+    print(new_geo.mask==geo.mask)
