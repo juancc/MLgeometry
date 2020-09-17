@@ -36,6 +36,6 @@ class Object():
             d[str(type(self.geometry).__name__).lower()] = self.geometry._asdict()
 
         if self.subobject:
-            d['subobject'] = self.subobject._asdict()
+            d['subobject'] = [subobj._asdict() for subobj in self.subobject]
 
         return d

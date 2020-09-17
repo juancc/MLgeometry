@@ -44,7 +44,7 @@ class Mask(Geometry):
         else:
             # Get only the index of flatten mask (converted into array)
             if isinstance(mask, list):
-                mask = np.array(mask)
+                mask = np.array(mask, dtype=float)
             if mask.dtype != bool:
                 _mask = np.zeros(mask.shape, np.uint8)
                 _mask[mask > threshold] = 1
@@ -125,5 +125,5 @@ if __name__ == "__main__":
     geo_dict = geo._asdict()
     st = json.dumps(geo_dict)
 
-    new_geo = Mask._fromdict(geo_dict)
-    print(new_geo.mask==geo.mask)
+    new_geo = Mask._fromdict(json.loads(st))
+    print(new_geo.mask)
