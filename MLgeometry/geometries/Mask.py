@@ -30,7 +30,7 @@ class Mask(Geometry):
         """
         :mask: (ndarray): Boolean matrix of 2 dimensions. If float type. thresholding process is performed
         :roi: (tuple or list of tuples) bound box coordinates (y1, x1, y2, x2)
-        :keep_mask: (Bool) Keep original mask in object. Not stored as dict
+        :keep_mask: (Bool) Keep original mask in object. If true: store idx and mask
         :threshold: (float) Min value for generating the index mask
         """
         self.keep_mask = keep_mask
@@ -78,13 +78,12 @@ class Mask(Geometry):
     def _asdict(self):
         d = {
             'shape': self.shape,
-            'roi': self.roi
+            'roi': self.roi,
+            'idx': self.idx
         }
         if self.keep_mask: 
             d['mask'] = self.mask.tolist()
-        else: 
-            d['idx'] = self.idx
-        
+ 
         return d
 
     def __len__(self):
