@@ -1,6 +1,18 @@
-venv
+
+# IDES
 .idea
+.vscode
+
+# Python 
 *.pcy
 *__pycache__
+
+# PIP
 MANIFEST
 setup.cfg
+
+# Lambda zips
+zip/python
+
+# Virtual environments
+venv

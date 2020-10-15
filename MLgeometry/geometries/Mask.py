@@ -19,21 +19,24 @@ Vaico
 import reprlib
 
 import numpy as np
+import cv2 as cv
 
 from MLgeometry.geometries.Geometry import Geometry
 
 
 class Mask(Geometry):
-    __slots__ = ('idx', 'roi', 'shape', 'keep_mask')
+    __slots__ = ('idx', 'roi', 'shape', 'keep_mask', 'scale')
 
-    def __init__(self, mask, roi, idx=None, shape=None, keep_mask=False, threshold=0.5):
+    def __init__(self, mask, roi, idx=None, shape=None, keep_mask=False, threshold=0.5, scale=1.0):
         """
         :mask: (ndarray): Boolean matrix of 2 dimensions. If float type. thresholding process is performed
         :roi: (tuple or list of tuples) bound box coordinates (y1, x1, y2, x2)
         :keep_mask: (Bool) Keep original mask in object. If true: store idx and mask
         :threshold: (float) Min value for generating the index mask
+        ;scale: (float) mask scaling factor. Values > 0
         """
         self.keep_mask = keep_mask
+        self.scale = scale
         if idx is not None and mask is None:
             # When is instantiated from a dict without mask
             if not isinstance(idx[0], int):
@@ -45,14 +48,20 @@ class Mask(Geometry):
             # Get only the index of flatten mask (converted into array)
             if isinstance(mask, list):
                 mask = np.array(mask, dtype=float)
-            if mask.dtype != bool:
-                _mask = np.zeros(mask.shape, np.uint8)
-                _mask[mask > threshold] = 1
-            _mask = mask.astype(bool)
+            if mask.dtype == bool: # Cast boolean masks for resize
+                temp_mask = np.zeros(mask.shape)
+                temp_mask[mask] = 1
+                mask = temp_mask
+            if scale != 1 and scale > 0:
+                mask = mask.astype(float)
+                mask = cv.resize(mask, None, fx=scale,fy=scale)
+            # Convert to boolean for generate indexs
+            _mask = mask>threshold
+
             flat = _mask.flatten()
             self.idx = np.where(flat == True)[0].astype(int).tolist()
             self.shape = _mask.shape
-            if keep_mask: self.mask = mask
+            if keep_mask: self.mask = mask # Store original mask
 
         self.roi = []
         for r in roi:
@@ -79,7 +88,8 @@ class Mask(Geometry):
         d = {
             'shape': self.shape,
             'roi': self.roi,
-            'idx': self.idx
+            'idx': self.idx,
+            'scale': self.scale
         }
         if self.keep_mask: 
             d['mask'] = self.mask.tolist()
@@ -104,10 +114,12 @@ class Mask(Geometry):
                    info_dict['roi'],
                    idx=idx,
                    shape=info_dict['shape'],
-                   keep_mask=keep_mask)
+                   keep_mask=keep_mask,
+                   scale=info_dict['scale'] if 'scale' in info_dict else 1
+                   )
 
     def __eq__(self, other):
-        return self.idx == self.idx and self.shape == self.shape
+        return self.idx == other.idx and self.shape == other.shape and self.scale == other.scale
 
     def __repr__(self):
         class_name = type(self).__name__
