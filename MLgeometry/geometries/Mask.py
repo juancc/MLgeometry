@@ -124,7 +124,10 @@ class Mask(Geometry):
     def __repr__(self):
         class_name = type(self).__name__
         args = {
-            'idx': self.idx
+            'idx': self.idx,
+            'keep_mask': self.keep_mask,
+            'scale': self.scale,
+            'shape': self.shape
         }
         return '{}({})'.format(class_name, reprlib.repr(args))
 

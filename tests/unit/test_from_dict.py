@@ -1,5 +1,5 @@
 import unittest
-from MLgeometry import creator
+# from MLgeometry import creator
 from MLgeometry import Object
 from MLgeometry import BoundBox
 from MLgeometry import Point
@@ -18,7 +18,7 @@ class test_from_dict(unittest.TestCase):
             label=d['label'],
             score=d['score'],
             subobject= None)
-        obj = creator.from_dict(d)
+        obj = Object.from_dict(d)
         self.assertEqual(obj,obj_true)
 
     def test_create_from_dict_point(self):
@@ -31,7 +31,7 @@ class test_from_dict(unittest.TestCase):
             label=d['label'],
             score=d['score'],
             subobject= None)
-        obj = creator.from_dict(d)
+        obj = Object.from_dict(d)
         self.assertEqual(obj,obj_true)
 
     def test_create_from_dict_polygon(self):
@@ -42,7 +42,7 @@ class test_from_dict(unittest.TestCase):
             label=d['label'],
             score=d['score'],
             subobject= None)
-        obj = creator.from_dict(d)
+        obj = Object.from_dict(d)
 
         self.assertEqual(obj,obj_true)
 
@@ -57,7 +57,7 @@ class test_from_dict(unittest.TestCase):
             label=d['label'],
             score=d['score'],
             subobject= None)
-        obj = creator.from_dict(d)
+        obj = Object.from_dict(d)
         self.assertEqual(obj,obj_true)
 
     def test_not_geometry(self):
@@ -75,7 +75,7 @@ class test_from_dict(unittest.TestCase):
                 score=d['subobject']['score'],
                 subobject=None
             ))
-        obj = creator.from_dict(d)
+        obj = Object.from_dict(d)
         print(obj)
         self.assertEqual(obj, obj_true)
 

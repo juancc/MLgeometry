@@ -6,3 +6,5 @@ from MLgeometry.geometries.Polygon import Polygon
 from MLgeometry.geometries.Polyline import Polyline
 from MLgeometry.geometries.Mask import Mask
 from MLgeometry.geometries.Skeleton import Skeleton
+from MLgeometry.geometries.Line import Line
+

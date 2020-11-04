@@ -10,7 +10,7 @@ setup(
   url = 'https://jarbest@bitbucket.org/jarbest/mlgeometry.git',
   download_url = 'https://bitbucket.org/jarbest/mlgeometry/get/master.tar.gz',
   keywords = ['vaico', 'geometry', 'ml'],
-install  install_requires=['numpy', 'opencv-python'],
+  install_requires=['numpy', 'opencv-python'],
   classifiers=[
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
