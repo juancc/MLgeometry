@@ -9,8 +9,10 @@ SUPPORT
 JCA
 Vaico
 """
+import numpy as np
 
 from MLgeometry.geometries.Geometry import Geometry
+
 
 class Polygon(Geometry):
 
@@ -21,8 +23,11 @@ class Polygon(Geometry):
         Individual points most be indexable
         :arg points: iterable
         """
-        self.points = list(points)
-
+        if isinstance(points,  np.ndarray):
+            self.points = points.tolist()
+        else:
+            self.points = [list(p) for p in points]
+            
     def __iter__(self):
         return iter(self.points)
 
