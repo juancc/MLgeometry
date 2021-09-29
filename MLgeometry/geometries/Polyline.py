@@ -16,11 +16,12 @@ from MLgeometry.geometries.Geometry import Geometry
 
 
 class Polyline(Geometry):
-    __slots__ = ('all_x', 'all_y')
+    __slots__ = ('all_x', 'all_y', 'is_closed')
 
-    def __init__(self, all_x, all_y):
+    def __init__(self, all_x, all_y, is_closed=False):
         self.all_x = list(all_x)
         self.all_y = list(all_y)
+        self.is_closed=False # Is a closed polygon mostly used for drawing
 
         if len(self.all_y) != len(self.all_x):
             raise ValueError('Coordinates most have the same number of values')
@@ -31,14 +32,16 @@ class Polyline(Geometry):
     def _asdict(self):
         return {
             'all_x': self.all_x,
-            'all_y': self.all_y
+            'all_y': self.all_y,
+            'is_closed': self.is_closed,
         }
 
     @classmethod
     def _fromdict(cls, info_dict):
         return cls(
             info_dict['all_x'],
-            info_dict['all_y']
+            info_dict['all_y'],
+            is_closed=info_dict['is_closed'] if 'is_closed' in info_dict else False
         )
 
     def __len__(self):
@@ -52,7 +55,8 @@ class Polyline(Geometry):
         class_name = type(self).__name__
         args = {
             'all_x': self.all_x,
-            'all_y': self.all_y
+            'all_y': self.all_y,
+            'is_closed': self.is_closed
         }
         return '{}({})'.format(class_name, reprlib.repr(args))
 
